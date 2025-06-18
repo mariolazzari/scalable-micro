@@ -220,4 +220,13 @@ Types:
 - Delivery
 - Buffering
 - Decoupling
-- 
+- Fault tollerance
+
+## Testing, securing and performance
+
+### Error handling
+
+- Network
+- Service
+- Data
+- Timeout
