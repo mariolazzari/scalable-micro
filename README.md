@@ -104,3 +104,120 @@
 - Choose patterns that match your use case and requirements
 - Mantain consistent monitoring and logging
 
+## Developing a microservice
+
+### Advanced API design and protocol selection
+
+- REST
+  - Public APIs
+  - CRUD operations
+  - Caching
+- GraphQL
+  - Complex data requirements
+  - Mobile apps
+  - Rapid fronted development
+- gRPC
+  - Internal microservice communication
+  - Real time streming
+  - Polyglot enviroments
+
+#### Communication protocols
+
+- HTTP/REST
+  - Synchronous request and response
+  - Standard HTTP methods
+  - JSON or XML payload format
+- WebSocket
+  - Chat and live streams
+  - Bidirectional
+  - Persisten connection
+- Message Queuing Telemetry Protocol (MQTT)
+  - IoT and mobile
+  - Lightweight publish-subscrine messaging
+  - Efficient for constrained devices and networks
+- Advanced Message Queuing Protocol (AMQP)
+  - Enterprise-grade messaging protocol
+  - Mission critical message handling
+  - Queuing, routing reliable delivering
+- Apache Kafka
+  - Distributed streaming platform
+  - Event straming and pipelines
+  - High throughtput, fault tollerant
+  
+### Database strategies
+
+#### Database per service
+
+Props:
+- Independent scaling
+- Flexibility
+- Isolation
+- Encapsulation
+
+Cons:
+- Consistency
+- Complex reporting
+- Overhead
+
+Types:
+- Sql
+- Documents
+- Key-value
+- Graph
+
+### Saga
+
+- Orchestration
+- Rollback
+- Sequential
+
+### Event sourcing
+
+- Audit trail
+- Past states
+- Event driven
+
+### CQRS
+
+- Independent read/write
+- Optimized schemas
+- Performance
+
+### Synchronous communication
+
+- Direct request - response
+- Immediate responses
+- Tight coupling
+  
+#### API gateway
+
+- Reverse proxy
+- Routing
+
+### Circuit breaker
+
+- Reverse proxy
+- Composition
+- States
+  - Open
+  - Closed
+  - Half open
+
+### Asynchronous communication
+
+- Event driven
+- Loose coupling
+  
+#### Event streaming
+
+- Real time
+- Scalable
+- Historical
+- Event sourcing
+
+#### Messages queue
+
+- Delivery
+- Buffering
+- Decoupling
+- 
