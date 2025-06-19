@@ -230,3 +230,54 @@ Types:
 - Service
 - Data
 - Timeout
+
+#### Circuit braker
+
+```ts
+export class CircuitBraker {
+  private failures = 0;
+  private treshold = 5;
+  private state = "CLOSED";
+
+  async execute(fn: () => Promise<any>) {
+    if (this.state === "OPEN") {
+      throw new Error("Circuit braker is OPEN");
+    }
+
+    try {
+      const res = await fn();
+      this.failures = 0;
+      return res;
+    } catch (ex) {
+      this.failures++;
+      if (this.failures >= this.treshold) {
+        this.state = "OPEN";
+      }
+      throw ex;
+    }
+  }
+}
+```
+
+#### Retry
+
+```ts
+function retryWithBackoff(
+  fn: () => Promise<any>,
+  maxRetries: number = 3
+) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return fn();
+    } catch (error) {
+      if (attempt === maxRetries - 1) {
+        throw error; // Rethrow the last error after max retries
+      }
+      const backoffTime = Math.pow(2, attempt) * 100; // Exponential backoff
+      console.log(`Retrying in ${backoffTime}ms...`);
+      return new Promise(resolve => setTimeout(resolve, backoffTime));
+    }
+  }
+  throw new Error("Max retries reached without success");
+}
+```
