@@ -422,4 +422,22 @@ export const errorHandler = (
 
 ## Scaling
 
-### 
+### Scaling
+
+- Horizontal
+  - Container orchestration
+  - Load balancing
+  - Stateless
+  
+- Vertical
+  - Node clustering
+  - Caching
+  - Database optimizations
+
+### Advanced NodsJS features
+
+- Worker threads
+- Async hooks
+- Event emitters
+- Stream processing
+- ESM loaders
