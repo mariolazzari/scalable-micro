@@ -336,3 +336,90 @@ export class HealthCheck {
 - Authentication and authorization
 - API security
 - Data security
+
+## Typescript
+
+### Api 
+
+```ts
+class Order {
+  constructor(
+    public id: number,
+    public customerName: string,
+    public items: string[],
+    public totalAmount: number
+  ) {}
+}
+
+class ApiResponse<T> {
+  constructor(
+    public status: string,
+    public message: string,
+    public data: T[]
+  ) {}
+}
+```
+
+### Error
+
+```ts
+class ServiceError extends Error {
+  constructor(public message: string, public code: number = 500) {
+    super(message);
+    this.name = "ServiceError";
+  }
+}
+
+export class ServiceError extends Error {
+  constructor(public message: string, public status: number = 500) {
+    super(message);
+    this.name = "ServiceError";
+  }
+}
+
+export const errorHandler = (
+  error: Error,
+  req: Request,
+  res: Response
+): Error => {
+  if (error instanceof ServiceError) {
+    res.status(error.status).json({
+      status: "error",
+      message: error.message,
+    });
+  } else {
+    console.error("Unexpected error:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+  return error;
+};
+```
+
+### Advanced type system
+
+- Literal types
+  - Union
+  - Intersect
+  - Conditional
+
+- Mapped types
+  - Indexed
+  - Readonly
+  - Merging
+
+- Template literal types
+
+### Async patterns
+
+- Promise
+- Observable
+- Circuit braker
+- Saga
+- Event
+
+## Scaling
+
+### 
