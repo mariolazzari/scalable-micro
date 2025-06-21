@@ -436,8 +436,123 @@ export const errorHandler = (
 
 ### Advanced NodsJS features
 
-- Worker threads
-- Async hooks
-- Event emitters
-- Stream processing
-- ESM loaders
+#### Worker threads
+
+```ts
+import { isMainThread, Worker, parentPort } from "worker_threads";
+
+if (isMainThread) {
+  // This is the main thread, we can create worker threads
+  const worker = new Worker(__filename);
+  worker.on("message", message => {
+    console.log("Message from worker:", message);
+  });
+} else {
+  // Simulate some work
+  const message = "Hello from the worker thread!";
+  parentPort?.postMessage(message);
+}
+```
+
+#### Async hooks
+
+```ts
+import asyncHooks from "async_hooks";
+
+const hook = asyncHooks
+  .createHook({
+    init(asyncId, type, triggerAsyncId, resource) {
+      console.log(
+        `Async Hook Init: ${asyncId}, Type: ${type}, Trigger Async ID: ${triggerAsyncId}`
+      );
+    },
+    destroy(asyncId) {
+      console.log(`Async Hook Destroy: ${asyncId}`);
+    },
+  })
+  .enable();
+```
+
+#### Event emitters
+
+```ts
+import EventEmitter from "events";
+
+type Job = {
+  id: string;
+  data: string;
+};
+
+export class JobProcessor extends EventEmitter {
+  constructor() {
+    super();
+  }
+
+  process(job: Job) {
+    this.emit("processing", job);
+    this.emit("completed", job);
+  }
+}
+
+const processor = new JobProcessor();
+processor.on("processing", (job: Job) => {
+  console.log(`Job processing: ${job.id}, Data: ${job.data}`);
+});
+
+processor.on("completed", (job: Job) => {
+  console.log(`Job completed: ${job.id}`);
+});
+```
+
+#### Stream processing
+
+```ts
+import fs from "fs";
+import { Transform } from "stream";
+
+const upperCaseTransform = new Transform({
+  transform(chunk, encoding, callback) {
+    const upperCaseChunk = chunk.toString().toUpperCase();
+    callback(null, upperCaseChunk);
+  },
+});
+
+const inputStream = fs.createReadStream("input.txt");
+const outputStream = fs.createWriteStream( "output.txt");
+inputStream
+  .pipe(upperCaseTransform)
+  .pipe(outputStream)
+  .on("finish", () => {
+    console.log("File transformation complete.");
+  })
+  .on("error", error => {
+    console.error("Error during file transformation:", error);
+  });
+```
+
+#### ESM loaders
+
+```ts
+export async function loadModule(modulePath) {
+  try {
+    const module = await import(modulePath);
+    return module;
+  } catch (error) {
+    console.error(`Failed to load module at ${modulePath}:`, error);
+    throw error;
+  }
+}
+
+export async function loadModules(modulePaths) {
+  const modules = [];
+  for (const path of modulePaths) {
+    try {
+      const module = await loadModule(path);
+      modules.push(module);
+    } catch (error) {
+      console.error(`Error loading module at ${path}:`, error);
+    }
+  }
+  return modules;
+}
+```
