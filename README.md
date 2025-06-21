@@ -556,3 +556,32 @@ export async function loadModules(modulePaths) {
   return modules;
 }
 ```
+
+### Performance optimizations
+
+#### Caching
+
+```ts
+import redis from "redis";
+
+const client = redis.createClient();
+
+export const getCache = async (key: string): Promise<string | null> => {
+  try {
+    const value = await client.get(key);
+    return value;
+  } catch (err) {
+    throw err;
+  }
+};
+```
+
+#### Async
+
+```ts
+export async function processBatch(batch: any[]): Promise<any[]> {
+  const results: any[] = await Promise.all(batch);
+
+  return results;
+}
+```
